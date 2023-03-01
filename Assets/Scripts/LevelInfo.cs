@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Level : MonoBehaviour
+public class LevelInfo : MonoBehaviour
 {
     public int levelNo;
     public int gridWidth;
