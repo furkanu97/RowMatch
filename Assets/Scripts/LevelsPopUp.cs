@@ -4,18 +4,11 @@ using System.Collections.Generic;
 using DigitalRuby.Tween;
 using UnityEngine;
 
-public class Levels : MonoBehaviour
+public class LevelsPopUp : MonoBehaviour
 {
-    [SerializeField] private GameObject popUp;
     private bool _scaleUp;
     private bool _scaleDown;
-    private Transform _transform;
-    
-
-    private void Start()
-    {
-        _transform = popUp.GetComponent<Transform>();
-    }
+    [SerializeField] private float scaler = 0.02f;
 
     private void Update()
     {
@@ -31,8 +24,8 @@ public class Levels : MonoBehaviour
 
     private void OpenLevelsPopUp()
     {
-        _transform.localScale += new Vector3(1,1,0) * 0.02f;
-        if (_transform.localScale.x >= 1 || _transform.localScale.y >= 1)
+        transform.localScale += new Vector3(1,1,0) * scaler;
+        if (transform.localScale.x >= 1 || transform.localScale.y >= 1)
         {
             _scaleUp = false;
         }
@@ -40,18 +33,18 @@ public class Levels : MonoBehaviour
 
     private void CloseLevelsPopUp()
     {
-        _transform.localScale -= new Vector3(1,1,0) * 0.02f;
-        if (_transform.localScale.x <= 0 || _transform.localScale.y <= 0)
+        transform.localScale -= new Vector3(1,1,0) * scaler;
+        if (transform.localScale.x <= 0 || transform.localScale.y <= 0)
         {
             _scaleDown = false;
-            popUp.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 
     public void ScaleUp()
     {
         _scaleUp = true;
-        popUp.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     public void ScaleDown()
