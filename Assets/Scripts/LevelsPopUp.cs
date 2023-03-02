@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using DigitalRuby.Tween;
 using UnityEngine;
 
 public class LevelsPopUp : MonoBehaviour

@@ -2,22 +2,18 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LevelInfo : MonoBehaviour
 {
     public int levelNo;
-    public int gridWidth;
-    public int gridHeight;
     public int moveCount;
-    public string grid;
     public int highestScore;
+    public bool locked;
     public List<GameObject> buttons;
-    [SerializeField] private bool locked;
 
-    private void Awake()
+    private void Start()
     {
-        Instantiate(locked ? buttons [0] : buttons[1], transform);
+        (locked ? buttons[0] : buttons[1]).SetActive(true);
         GetComponentsInChildren<TMP_Text>()[0].text = "Level " + levelNo + " - " + moveCount + " Moves";
         if (locked)
         {
@@ -31,5 +27,12 @@ public class LevelInfo : MonoBehaviour
             }
             else GetComponentsInChildren<TMP_Text>()[1].text = "Highest Score: " + highestScore;
         }
+    }
+
+    public void PlayButtonClicked()
+    {
+        var gameManager = FindObjectOfType<GameManager>();
+        gameManager.levelIndex = levelNo;
+        gameManager.Play();
     }
 }
