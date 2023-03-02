@@ -199,6 +199,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 639801459346146088, guid: 51a019078e07934428ff3798dadcacaa, type: 3}
+      propertyPath: gridPiece
+      value: 
+      objectReference: {fileID: 1355547342987597084, guid: 671d19350c5d00249a8af0252027c0fa, type: 3}
+    - target: {fileID: 639801459346146088, guid: 51a019078e07934428ff3798dadcacaa, type: 3}
       propertyPath: gridWidth
       value: 6
       objectReference: {fileID: 0}
@@ -210,6 +214,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 749314905607968393, guid: 8d05b96e62e3d6b42a201a9da16be015, type: 3}
+    - target: {fileID: 639801459346146088, guid: 51a019078e07934428ff3798dadcacaa, type: 3}
+      propertyPath: diamonds.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 639801459346146089, guid: 51a019078e07934428ff3798dadcacaa, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

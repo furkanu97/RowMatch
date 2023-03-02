@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject gridPiece;
     [SerializeField] private GameObject background;
     [SerializeField] private float space;
+    [SerializeField] private List<GameObject> diamonds;
     private GameManager _gameManager;
     private float _cellSize;
     private Transform _createdCellTr;
@@ -36,21 +38,21 @@ public class GridManager : MonoBehaviour
         {
             for (var j = 0; j < CurrentLevel.GridWidth; j++)
             {
-                _createdCellTr = Instantiate(gridPiece, transform).GetComponent<Transform>().Find("Sprite");
-                _createdCellTr.localScale = new Vector3(_cellSize, _cellSize,1);
+                _createdCellTr = Instantiate(gridPiece, transform).transform;
+                _createdCellTr.GetChild(0).localScale = new Vector3(_cellSize, _cellSize,1);
                 switch (CurrentLevel.Grid[i,j])
                 {
                     case "r":
-                        Debug.Log(i + ", " + j + " Red");
-                        break;
-                    case "b":
-                        Debug.Log(i + ", " + j + " Blue");
+                        Instantiate(diamonds[0], _createdCellTr);
                         break;
                     case "g":
-                        Debug.Log(i + ", " + j + " Green");
+                        Instantiate(diamonds[1], _createdCellTr);
+                        break;
+                    case "b":
+                        Instantiate(diamonds[2], _createdCellTr);
                         break;
                     case "y":
-                        Debug.Log(i + ", " + j + " Yellow");
+                        Instantiate(diamonds[3], _createdCellTr);
                         break;
                     default:
                         Debug.Log("Wrong color");
