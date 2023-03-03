@@ -147,7 +147,6 @@ GameObject:
   - component: {fileID: 2590402063981039967}
   - component: {fileID: 2590402063981039966}
   - component: {fileID: 2590402063981039965}
-  - component: {fileID: 1944797012470164390}
   m_Layer: 5
   m_Name: PlayButton
   m_TagString: Untagged
@@ -258,9 +257,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1944797012470164390}
-        m_TargetAssemblyTypeName: PlayButton, Assembly-CSharp
-        m_MethodName: OnClickPlay
+      - m_Target: {fileID: 6932755934254845781, guid: a3331d56639d6dc4696603086825f0a1, type: 3}
+        m_TargetAssemblyTypeName: LevelInfo, Assembly-CSharp
+        m_MethodName: PlayButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -270,15 +269,3 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1944797012470164390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2590402063981039955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02aa49d5fcbbc8b44aaab686db705ff7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
