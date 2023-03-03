@@ -76,9 +76,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridPiece: {fileID: 1355547342987597084, guid: 671d19350c5d00249a8af0252027c0fa, type: 3}
   background: {fileID: 4532752836331582588, guid: 0febf5a57d87d714db5a550e19759742, type: 3}
+  topBar: {fileID: 5571877117978171641, guid: 4c341331f1cacec439cca619825bc4a1, type: 3}
+  canvasTransform: {fileID: 6026476790358500255, guid: f5d148fb909e16749b2a642db54bff27, type: 3}
   space: 1080
   diamonds:
   - {fileID: 13617118789139956, guid: 8f539580224e16c449f0a958ec469f1d, type: 3}
   - {fileID: 6477656848338240786, guid: 8dc95476c6739cd45861ae4df646a355, type: 3}
   - {fileID: 2023871324696798571, guid: 5b4f9a0684da7f24f99d9356443e0a9d, type: 3}
   - {fileID: 2731103349917546601, guid: e3370137c7d48694cbe3f649ea5f31f8, type: 3}
+  cellSize: 0

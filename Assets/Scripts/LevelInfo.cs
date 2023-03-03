@@ -13,14 +13,24 @@ public class LevelInfo : MonoBehaviour
 
     private void Start()
     {
-        (locked ? buttons[0] : buttons[1]).SetActive(true);
+        FillLevelInfo();
+    }
+
+    public void FillLevelInfo()
+    {
         GetComponentsInChildren<TMP_Text>()[0].text = "Level " + levelNo + " - " + moveCount + " Moves";
         if (locked)
         {
+            buttons[0].SetActive(true);
+            buttons[1].SetActive(false);
+            if (moveCount == 0) buttons[2].SetActive(true);
             GetComponentsInChildren<TMP_Text>()[1].text = "Locked Level";
         }
         else
         {
+            buttons[0].SetActive(false);
+            buttons[1].SetActive(true);
+            buttons[2].SetActive(false);
             if(highestScore == 0)
             {
                 GetComponentsInChildren<TMP_Text>()[1].text = "No Score";
@@ -32,7 +42,12 @@ public class LevelInfo : MonoBehaviour
     public void PlayButtonClicked()
     {
         var gameManager = FindObjectOfType<GameManager>();
-        gameManager.levelIndex = levelNo;
         gameManager.Play();
+    }
+
+    public void DownloadButtonClicked()
+    {
+        var gameManager = FindObjectOfType<GameManager>();
+        gameManager.CheckAndDownload(levelNo);
     }
 }
