@@ -84,39 +84,39 @@ public class GameplayManager : MonoBehaviour
     {
         _score += toAdd;
         topBar.score.SetText("Score: " + _score);
-        Invoke(nameof(CheckPossibleMoves),0.5f);
+        //Invoke(nameof(CheckPossibleMoves),0.5f);
     }
 
-    private void CheckPossibleMoves()
-    {
-        _counter = new List<int>(4);
-        var diamonds = FindObjectsOfType<Diamond>();
-        foreach (var diamond in diamonds)
-        {
-            switch (diamond.name)
-            {
-                case "Red(Clone)":
-                    _counter[0] += 1;
-                    break;
-                case "Green(Clone)":
-                    _counter[1] += 1;
-                    break;
-                case "Blue(Clone)":
-                    _counter[2] += 1;
-                    break;
-                case "Yellow(Clone)":
-                    _counter[3] += 1;
-                    break;
-            }
-        }
-        bool terminate = true;
-        foreach (var counter in _counter)
-        {
-            if (counter > _currentLevel.GridWidth) terminate = false;
-            Debug.Log(counter);
-        }
-        if (terminate) Invoke(nameof(WaitAndGo),0.5f);
-    }
+    // private void CheckPossibleMoves()
+    // {
+    //     _counter = new List<int>(4);
+    //     var diamonds = FindObjectsOfType<Diamond>();
+    //     foreach (var diamond in diamonds)
+    //     {
+    //         switch (diamond.name)
+    //         {
+    //             case "Red(Clone)":
+    //                 _counter[0] += 1;
+    //                 break;
+    //             case "Green(Clone)":
+    //                 _counter[1] += 1;
+    //                 break;
+    //             case "Blue(Clone)":
+    //                 _counter[2] += 1;
+    //                 break;
+    //             case "Yellow(Clone)":
+    //                 _counter[3] += 1;
+    //                 break;
+    //         }
+    //     }
+    //     bool terminate = true;
+    //     foreach (var counter in _counter)
+    //     {
+    //         if (counter > _currentLevel.GridWidth) terminate = false;
+    //         Debug.Log(counter);
+    //     }
+    //     if (terminate) Invoke(nameof(WaitAndGo),0.5f);
+    // }
     
     public void DecreaseMoveCount()
     {
