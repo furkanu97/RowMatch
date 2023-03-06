@@ -127,7 +127,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 7893589329196443928, guid: 648b2861fed2e2846a018588049f1de9, type: 3}
   gridManager: {fileID: 639801459346146088, guid: 51a019078e07934428ff3798dadcacaa, type: 3}
-  movementSpeed: 1.5
+  movementSpeed: 15
 --- !u!60 &-2622446157138594853
 PolygonCollider2D:
   m_ObjectHideFlags: 0
