@@ -1,11 +1,5 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class GameplayManager : MonoBehaviour
 {
@@ -24,7 +18,6 @@ public class GameplayManager : MonoBehaviour
     public float turnSpeed;
     private Level _currentLevel;
     private List<int> _counters = new (){0,0,0,0};
-    public TMP_Text text;
 
 
     private void Start()
@@ -38,7 +31,6 @@ public class GameplayManager : MonoBehaviour
     {
         if (_disappear) TransformRow();
         if (_create) CreateChecks();
-        text.text = $"Width: {Screen.width} Height: {Screen.height}";
     }
 
     private void DisplayTopBarInfo()

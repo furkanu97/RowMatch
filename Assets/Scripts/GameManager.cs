@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
@@ -74,7 +72,7 @@ public class GameManager : MonoBehaviour
                 HighestScore = 0
             };
 
-            var path = levelNo < 11 ? "Assets/Levels/RM_" : $"{Application.persistentDataPath}/RM_";
+            var path = $"{Application.persistentDataPath}/RM_";
             path += _level.LevelNo <= 15 ? 'A' + levelNo.ToString() : 'B' + (levelNo - 15).ToString();
             if (File.Exists(path))
             {
