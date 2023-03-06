@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 
@@ -8,17 +11,20 @@ public class GameplayManager : MonoBehaviour
 {
     private int _moveCounter;
     private int _score;
-    private int _row;
+    private int _row = -1;
+    private int _row2 = -1;
     private bool _disappear;
     private bool _create;
     private List<GameObject> _checks;
+    private List<GameObject> _checks2;
     [SerializeField] private GameObject check;
     private GameManager _gameManager;
     public TopBar topBar;
     public GridManager gridManager;
     public float turnSpeed;
     private Level _currentLevel;
-    private List<int> _counter;
+    private List<int> _counters = new (){0,0,0,0};
+    public TMP_Text text;
 
 
     private void Start()
@@ -32,6 +38,7 @@ public class GameplayManager : MonoBehaviour
     {
         if (_disappear) TransformRow();
         if (_create) CreateChecks();
+        text.text = $"Width: {Screen.width} Height: {Screen.height}";
     }
 
     private void DisplayTopBarInfo()
@@ -40,11 +47,10 @@ public class GameplayManager : MonoBehaviour
 
         //Change texts
         _moveCounter = _currentLevel.MoveCount;
-        topBar.highestScore.SetText("Highest Score: " + _currentLevel.HighestScore);
-        topBar.levelNo.SetText("Level " + _currentLevel.LevelNo);
-        topBar.moveCount.SetText("Moves " + _currentLevel.MoveCount);
-        topBar.score.SetText("Score: " + _score);
-        _moveCounter = _currentLevel.MoveCount;
+        topBar.highestScore.SetText("Highest\n Score " + _currentLevel.HighestScore);
+        topBar.levelNo.SetText("Level\n " + _currentLevel.LevelNo);
+        topBar.moveCount.SetText("Moves\n " + _currentLevel.MoveCount);
+        topBar.score.SetText("Score\n " + _score);
     }
 
     private void TransformRow()
@@ -52,17 +58,22 @@ public class GameplayManager : MonoBehaviour
         for (var i = 0; i < _currentLevel.GridWidth; i++)
         {
             var trObject = gridManager.GridCells[_row, i].transform;
+            var trObject2 = _row2 != -1 ? gridManager.GridCells[_row2, i].transform : null;
             if (trObject.rotation.eulerAngles.x < 90 & trObject.rotation.eulerAngles.x > 270)
             {
                 trObject.Rotate(Vector3.left, turnSpeed * Time.deltaTime);
+                if (trObject2) trObject2.Rotate(Vector3.left, turnSpeed * Time.deltaTime);
             }
             else
             {
                 _disappear = false;
                 Destroy(trObject.gameObject);
+                if (trObject2) Destroy(trObject2.gameObject);
                 _create = true;
             }
         }
+        _row = -1;
+        _row2 = -1;
     }
 
     private void CreateChecks()
@@ -84,44 +95,47 @@ public class GameplayManager : MonoBehaviour
     {
         _score += toAdd;
         topBar.score.SetText("Score: " + _score);
-        //Invoke(nameof(CheckPossibleMoves),0.5f);
     }
 
-    // private void CheckPossibleMoves()
-    // {
-    //     _counter = new List<int>(4);
-    //     var diamonds = FindObjectsOfType<Diamond>();
-    //     foreach (var diamond in diamonds)
-    //     {
-    //         switch (diamond.name)
-    //         {
-    //             case "Red(Clone)":
-    //                 _counter[0] += 1;
-    //                 break;
-    //             case "Green(Clone)":
-    //                 _counter[1] += 1;
-    //                 break;
-    //             case "Blue(Clone)":
-    //                 _counter[2] += 1;
-    //                 break;
-    //             case "Yellow(Clone)":
-    //                 _counter[3] += 1;
-    //                 break;
-    //         }
-    //     }
-    //     bool terminate = true;
-    //     foreach (var counter in _counter)
-    //     {
-    //         if (counter > _currentLevel.GridWidth) terminate = false;
-    //         Debug.Log(counter);
-    //     }
-    //     if (terminate) Invoke(nameof(WaitAndGo),0.5f);
-    // }
+    private void CheckPossibleMoves()
+    {
+        var diamonds = FindObjectsOfType<Diamond>();
+        foreach (var diamond in diamonds)
+        {
+            switch (diamond.name.Split('(')[0])
+            {
+                case "Red":
+                    _counters[0] += 1;
+                    break;
+                case "Green":
+                    _counters[1] += 1;
+                    break;
+                case "Blue":
+                    _counters[2] += 1;
+                    break;
+                case "Yellow":
+                    _counters[3] += 1;
+                    break;
+            }
+        }
+        var terminate = true;
+        foreach (var counter in _counters)
+        {
+            if (counter >= _currentLevel.GridWidth)
+            {
+                terminate = false;
+                break;
+            }
+        }
+        _counters = new List<int>{0, 0, 0, 0};
+        if (terminate) Invoke(nameof(WaitAndGo),0.5f);
+    }
     
     public void DecreaseMoveCount()
     {
         _moveCounter -= 1;
         topBar.moveCount.SetText("Moves " + _moveCounter);
+        CheckPossibleMoves();
         if (_moveCounter == 0) Invoke(nameof(WaitAndGo),0.5f);
     }
 
@@ -132,6 +146,7 @@ public class GameplayManager : MonoBehaviour
 
     public void CheckRows(int firstCellIndex, int secondCellIndex)
     {
+        _checks = new List<GameObject>();
         CheckRow(firstCellIndex);
         if (firstCellIndex != secondCellIndex) CheckRow(secondCellIndex);
     }
@@ -180,13 +195,19 @@ public class GameplayManager : MonoBehaviour
             AddScore(scoreToAdd * width);
             
             //Instantiate check sprites
-            _checks = new List<GameObject>();
-            _row = cellIndex;
-            _disappear = true;
+            if (_row == -1)
+            {
+                _row = cellIndex;
+            }
+            else
+            {
+                _row2 = cellIndex;
+            }
             for (var i = 0; i < width; i++)
             {
                 _checks.Add(Instantiate(check, grid[cellIndex,i].transform.parent));
             }
+            _disappear = true;
         }
     }
     

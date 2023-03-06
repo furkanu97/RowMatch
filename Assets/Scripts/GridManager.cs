@@ -7,13 +7,12 @@ public class GridManager : MonoBehaviour
     [SerializeField] private GameObject gridPiece;
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject topBar;
-    [SerializeField] private Transform canvasTransform;
-    [SerializeField] private float space;
     [SerializeField] private List<GameObject> diamonds;
     private GameManager _gameManager;
     private Transform _createdCellTr;
-    private Transform _backgroundTr;
     private string[] _infos;
+    private Transform _root;
+    private RectTransform _rect;
     public float cellSize;
     public GameObject[,] GridCells;
     public Level CurrentLevel;
@@ -28,12 +27,15 @@ public class GridManager : MonoBehaviour
     private void CreateGrid()
     {
         _gameManager = FindObjectOfType<GameManager>();
-        CurrentLevel = _gameManager.Levels[_gameManager.levelIndex];
-        Debug.Log("Move Count: " + CurrentLevel.MoveCount);
+        CurrentLevel = _gameManager.Levels[_gameManager.currentLevel];
 
         //Set Grid Size
-        cellSize = space / (CurrentLevel.GridWidth > CurrentLevel.GridHeight ? CurrentLevel.GridWidth : CurrentLevel.GridHeight);
-        GetComponent<RectTransform>().sizeDelta = new Vector2(cellSize * CurrentLevel.GridWidth,cellSize * CurrentLevel.GridHeight);
+        _root = transform.root;
+        _rect = GetComponent<RectTransform>();
+        var possibleCellWidth = _root.GetComponent<RectTransform>().sizeDelta.x / CurrentLevel.GridWidth;
+        var possibleCellHeight = _root.GetComponent<RectTransform>().sizeDelta.y / CurrentLevel.GridHeight;
+        cellSize = (possibleCellWidth < possibleCellHeight ? possibleCellWidth : possibleCellHeight) * 0.8f;
+        _rect.sizeDelta = new Vector2(cellSize * CurrentLevel.GridWidth,cellSize * CurrentLevel.GridHeight);
         GridCells = new GameObject[CurrentLevel.GridHeight, CurrentLevel.GridWidth];
 
         //Set Cell Size
@@ -73,13 +75,14 @@ public class GridManager : MonoBehaviour
     private void CreateBackground()
     {
         //Create Background and set size
-        _backgroundTr = Instantiate(background).GetComponent<Transform>();
-        _backgroundTr.localScale = new Vector3(cellSize * CurrentLevel.GridWidth + 40, cellSize * CurrentLevel.GridHeight + 40, 1);
+        var backgroundTr = Instantiate(background, _root).GetComponent<Transform>();
+        var size = _rect.sizeDelta;
+        backgroundTr.localScale = new Vector3(size.x + 20, size.y + 20,1);
     }
 
     private void CreateTopBar()
     {
         //Create TopBar as a child of Canvas
-        Instantiate(topBar, canvasTransform);
+        var topBarTr = Instantiate(topBar, _root).GetComponent<Transform>();
     }
 }

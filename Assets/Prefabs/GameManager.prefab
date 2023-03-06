@@ -47,6 +47,8 @@ MonoBehaviour:
   from: 1
   to: 25
   levelIndex: 0
+  currentLevel: 0
   popUp: {fileID: 4512986444399988044, guid: ece8b17d6af928b479bf24d97d3223e5, type: 3}
   errorPopUp: {fileID: 6494234263740461679, guid: 58dc03e4186f644469f03ff7a168caaf, type: 3}
-  panel: {fileID: 5100996578001584061, guid: 7ce09d9e27086dc48ba6430356cf2168, type: 3}
+  blur: {fileID: 2703889869678352064, guid: b833de6e60c143147a3c4cf4355d38fd, type: 3}
+  canvas: {fileID: 7104963242585317697, guid: f5d148fb909e16749b2a642db54bff27, type: 3}

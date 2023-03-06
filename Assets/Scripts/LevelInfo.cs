@@ -10,9 +10,10 @@ public class LevelInfo : MonoBehaviour
     public int highestScore;
     public bool locked;
     public List<GameObject> buttons;
-
+    [SerializeField] private GameManager gameManager;
     private void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
         FillLevelInfo();
     }
 
@@ -41,13 +42,11 @@ public class LevelInfo : MonoBehaviour
 
     public void PlayButtonClicked()
     {
-        var gameManager = FindObjectOfType<GameManager>();
-        gameManager.Play();
+        gameManager.Play(levelNo);
     }
 
     public void DownloadButtonClicked()
     {
-        var gameManager = FindObjectOfType<GameManager>();
         gameManager.CheckAndDownload(levelNo);
     }
 }

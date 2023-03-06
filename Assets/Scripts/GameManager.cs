@@ -15,10 +15,13 @@ public class GameManager : MonoBehaviour
     public int from;
     public int to;
     public int levelIndex;
+    public int currentLevel;
     private Level _level;
+    private GameObject _congrats;
     [SerializeField] private LevelsPopUp popUp;
     [SerializeField] private GameObject errorPopUp;
-    [SerializeField] private GameObject panel;
+    [SerializeField] private GameObject blur;
+    [SerializeField] private GameObject canvas;
 
     private void Awake()
     {
@@ -51,8 +54,10 @@ public class GameManager : MonoBehaviour
 
     private void SetHighestScore(int newHighestScore)
     {
-        Levels[levelIndex].HighestScore = newHighestScore;
-        levelIndex += 1;
+        //Celebration
+        
+        Levels[currentLevel].HighestScore = newHighestScore;
+        if (levelIndex < 25) levelIndex += 1;
         WritePersistence();
     }
 
@@ -140,21 +145,26 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void Play()
+    public void Play(int levelNo)
     {
+        currentLevel = levelNo - 1;
         SceneManager.LoadSceneAsync("LevelScene");
     }
     
     public void ReturnMainMenu(int score)
     {
-        if (score > Levels[levelIndex].HighestScore)
+        if (score > Levels[currentLevel].HighestScore)
         {
-            //Celebration
-        
             //Update Highest Score
             SetHighestScore(score);
         }
         SceneManager.LoadSceneAsync("MainScene");
+    }
+
+    //Close congratulations box
+    private void CloseCongrats()
+    {
+        blur.SetActive(false);
     }
 
     //Check Internet connection and download
@@ -171,8 +181,8 @@ public class GameManager : MonoBehaviour
         if(Application.internetReachability == NetworkReachability.NotReachable)
         {
             Debug.Log("Error. Check internet connection!");
-            errorPopUp.transform.GetChild(0).GetComponent<TMP_Text>().text = "ERROR!\nNO INTERNET CONNECTION.";
             errorPopUp.SetActive(true);
+            errorPopUp.transform.GetChild(0).GetComponent<TMP_Text>().text = "ERROR!\nNO INTERNET CONNECTION.";
         }
         //Download Level and Change Button
         else

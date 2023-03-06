@@ -4,6 +4,7 @@ public class Diamond : MonoBehaviour
 {
     [SerializeField] private Camera mainCamera;
     [SerializeField] private GridManager gridManager;
+    [SerializeField] private float movementSpeed;
     private GameplayManager _gameplayManager;
     private bool _dragging;
     private Vector3 _mousePos;
@@ -21,7 +22,7 @@ public class Diamond : MonoBehaviour
 
     private void Update()
     {
-        if (_returnHome) transform.position = Vector3.MoveTowards(transform.position, transform.parent.position, 1.0f);
+        if (_returnHome) transform.position = Vector3.MoveTowards(transform.position, transform.parent.position, movementSpeed);
     }
 
     private void OnMouseDown()
@@ -36,19 +37,20 @@ public class Diamond : MonoBehaviour
         if (_dragging)
         {
             _mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            if (_mousePos.x - _mouseStartPos.x > _halfCellSize & _mousePos.y - _mouseStartPos.y < _halfCellSize)
+            var limit = _halfCellSize * 0.3f;;
+            if (_mousePos.x - _mouseStartPos.x > limit & _mousePos.y - _mouseStartPos.y < limit)
             {
                 Swap(Vector3.right); //SwapRight
             }
-            else if (_mouseStartPos.x - _mousePos.x > _halfCellSize & _mouseStartPos.y - _mousePos.y < _halfCellSize)
+            else if (_mouseStartPos.x - _mousePos.x > limit & _mouseStartPos.y - _mousePos.y < limit)
             {
                 Swap(Vector3.left); //SwapLeft();
             }
-            else if (_mousePos.x - _mouseStartPos.x < _halfCellSize & _mousePos.y - _mouseStartPos.y > _halfCellSize)
+            else if (_mousePos.x - _mouseStartPos.x < limit & _mousePos.y - _mouseStartPos.y > limit)
             {
                 Swap(Vector3.up); //SwapUp();
             }
-            else if (_mouseStartPos.x - _mousePos.x < _halfCellSize & _mouseStartPos.y - _mousePos.y > _halfCellSize)
+            else if (_mouseStartPos.x - _mousePos.x < limit & _mouseStartPos.y - _mousePos.y > limit)
             {
                 Swap(Vector3.down); //SwapDown();
             }
@@ -82,7 +84,7 @@ public class Diamond : MonoBehaviour
             _returnHome = true;
             
             //Decrease move count and check for row completion
-            _gameplayManager.CheckRows(parentName[0] - '0', targetParentName[0] - '0');
+            if (direction.y != 0) _gameplayManager.CheckRows(parentName[0] - '0', targetParentName[0] - '0');
             _gameplayManager.DecreaseMoveCount();
         }
     }
