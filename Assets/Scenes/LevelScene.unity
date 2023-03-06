@@ -728,7 +728,7 @@ PrefabInstance:
       objectReference: {fileID: 5571877117978171525, guid: 4c341331f1cacec439cca619825bc4a1, type: 3}
     - target: {fileID: 6487839510845669664, guid: f76a5ebe81faca24a80eea4c601fa90a, type: 3}
       propertyPath: turnSpeed
-      value: 150
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 6487839510845669664, guid: f76a5ebe81faca24a80eea4c601fa90a, type: 3}
       propertyPath: gridManager

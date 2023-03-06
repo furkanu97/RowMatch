@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -15,11 +16,9 @@ public class GameManager : MonoBehaviour
     public int levelIndex;
     public int currentLevel;
     private Level _level;
-    private GameObject _congrats;
+    private TextAsset _info;
     [SerializeField] private LevelsPopUp popUp;
     [SerializeField] private GameObject errorPopUp;
-    [SerializeField] private GameObject blur;
-    [SerializeField] private GameObject canvas;
 
     private void Awake()
     {
@@ -61,25 +60,53 @@ public class GameManager : MonoBehaviour
 
     private void ReadLevels()
     {
-        //Read the text from the path
-        for (var levelNo = from; levelNo <= to; levelNo++)
-        {
-            _level = new Level
-            {
-                LevelNo = levelNo,
-                Locked = levelNo != 1,
-                MoveCount = 0,
-                HighestScore = 0
-            };
+          //Read the text from the path
+          for (var levelNo = from; levelNo <= to; levelNo++)
+          {
+              _level = new Level
+              {
+                  LevelNo = levelNo,
+                  Locked = levelNo != 1,
+                  MoveCount = 0,
+                  HighestScore = 0
+              };
+              if (levelNo < 11)
+              {
+                  _info = new TextAsset();
+                  _info = (TextAsset) Resources.Load($"Levels/RM_A{levelNo}");
+                  ReadLevelByInfo(_info);
+              }
+              else
+              {
+                  var path = $"{Application.persistentDataPath}/RM_";
+                  path += _level.LevelNo <= 15 ? 'A' + levelNo.ToString() : 'B' + (levelNo - 15).ToString();
+                  if (File.Exists(path))
+                  {
+                      ReadLevel(path);
+                  }
+                  else Levels.Add(_level);
+              }
+          }
+    }
 
-            var path = $"{Application.persistentDataPath}/RM_";
-            path += _level.LevelNo <= 15 ? 'A' + levelNo.ToString() : 'B' + (levelNo - 15).ToString();
-            if (File.Exists(path))
+    private void ReadLevelByInfo(TextAsset info)
+    {
+        var infos = info.text.Split();
+        //Fill the level class instance with necessary infos
+        _level.LevelNo = int.Parse(infos[1]);
+        _level.GridWidth = int.Parse(infos[3]);
+        _level.GridHeight = int.Parse(infos[5]);
+        _level.MoveCount = int.Parse(infos[7]);
+        _level.Grid = new string[_level.GridHeight, _level.GridWidth];
+        for (var i = 0; i < _level.GridHeight; i++)
+        {
+            for (var j = 0; j < _level.GridWidth; j++)
             {
-                ReadLevel(path);
+                _level.Grid[i,j] = infos[9].Split(',')[i * _level.GridWidth + j];
             }
-            else Levels.Add(_level);
         }
+        //Add level to Levels list
+        Levels.Add(_level);
     }
 
     private void ReadLevel(string path)
@@ -157,12 +184,6 @@ public class GameManager : MonoBehaviour
             SetHighestScore(score);
         }
         SceneManager.LoadSceneAsync("MainScene");
-    }
-
-    //Close congratulations box
-    private void CloseCongrats()
-    {
-        blur.SetActive(false);
     }
 
     //Check Internet connection and download

@@ -47,4 +47,4 @@ MonoBehaviour:
   check: {fileID: 3069204648489660852, guid: 701fdc104d4ecfd4dbf75f200abe6d1c, type: 3}
   topBar: {fileID: 5571877117978171525, guid: 4c341331f1cacec439cca619825bc4a1, type: 3}
   gridManager: {fileID: 639801459346146088, guid: 51a019078e07934428ff3798dadcacaa, type: 3}
-  turnSpeed: 200
+  turnSpeed: 500
