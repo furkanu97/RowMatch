@@ -50,3 +50,6 @@ TagManager:
   - name: Diamond
     uniqueID: 3573614815
     locked: 0
+  - name: Star
+    uniqueID: 2822068409
+    locked: 0

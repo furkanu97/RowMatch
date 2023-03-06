@@ -1,11 +1,10 @@
-using System;
 using UnityEngine;
 
 public class LevelsPopUp : MonoBehaviour
 {
     private bool _scaleUp;
     private bool _scaleDown;
-    [SerializeField] private float scaler = 0.02f;
+    [SerializeField] private float scaler = 0.08f;
 
     private void Start()
     {
@@ -27,9 +26,9 @@ public class LevelsPopUp : MonoBehaviour
     private void OpenLevelsPopUp()
     {
         transform.localScale += new Vector3(1,1,0) * scaler;
-        if (transform.localScale.x >= 1 || transform.localScale.y >= 1)
+        if (transform.localScale.x >= 3 || transform.localScale.y >= 3)
         {
-            transform.localScale = Vector3.one;
+            transform.localScale = Vector3.one * 3;
             _scaleUp = false;
         }
     }
