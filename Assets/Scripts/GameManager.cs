@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -35,17 +34,18 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
-        SceneManager.sceneLoaded += SceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void SceneLoaded(Scene arg0, LoadSceneMode arg1)
+    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
+        if (arg0.name != "MainScene") return;
         ReadPersistence();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        SceneManager.sceneLoaded -= SceneLoaded;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         popUp.ScaleUp();
     }
 
